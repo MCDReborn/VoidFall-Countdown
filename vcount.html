@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Void Countdown</title>
+
+<style>
+
+@font-face{
+font-family:"MCD";
+src:url(https://mcdreborn.github.io/mcd-font/minecraft-dungeons.otf)
+}
+
+body{
+margin:0;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:
+radial-gradient(circle at 20% 30%, #42005f, transparent 40%),
+radial-gradient(circle at 80% 70%, #001a3d, transparent 40%),
+#000;
+font-family:"MCD", sans-serif;
+}
+
+.panel{
+padding:24px;
+border-radius:16px;
+border:1px solid #ff00aa;
+background:rgba(0,0,20,0.7);
+box-shadow:
+0 0 40px #ff00aa33,
+inset 0 0 60px #001a3d;
+text-align:center;
+}
+
+.timer{
+display:flex;
+gap:25px;
+align-items:flex-start;
+}
+
+.box{
+background:#000;
+border-radius:12px;
+padding:25px 35px;
+box-shadow:
+0 0 20px #ff0080aa,
+inset 0 0 20px #000;
+}
+
+.number{
+font-size:64px;
+color:#ff4fa3;
+text-shadow:
+0 0 10px #722048,
+0 0 30px #852856,
+0 0 60px #461570;
+}
+
+.label{
+margin-top:10px;
+font-size:14px;
+letter-spacing:3px;
+color:#9aa0b0;
+}
+
+.glitch{
+position:relative;
+color:white;
+font-size:28px;
+letter-spacing:6px;
+}
+
+.glitch::before,
+.glitch::after{
+content:attr(data-text);
+position:absolute;
+left:0;
+top:0;
+width:100%;
+height:100%;
+}
+
+.glitch::before{
+left:2px;
+text-shadow:-2px 0 #ff00c8;
+animation:glitch1 2s infinite linear alternate;
+}
+
+.glitch::after{
+left:-2px;
+text-shadow:2px 0 #bf00ff;
+animation:glitch2 2s infinite linear alternate;
+}
+
+@keyframes glitch1{
+0%{clip-path:inset(0 0 80% 0);}
+20%{clip-path:inset(10% 0 60% 0);}
+40%{clip-path:inset(40% 0 20% 0);}
+60%{clip-path:inset(60% 0 10% 0);}
+80%{clip-path:inset(20% 0 50% 0);}
+100%{clip-path:inset(0 0 80% 0);}
+}
+
+@keyframes glitch2{
+0%{clip-path:inset(80% 0 0 0);}
+20%{clip-path:inset(50% 0 30% 0);}
+40%{clip-path:inset(20% 0 60% 0);}
+60%{clip-path:inset(10% 0 70% 0);}
+80%{clip-path:inset(60% 0 10% 0);}
+100%{clip-path:inset(80% 0 0 0);}
+}
+
+.musicButton{
+font-family:"MCD";
+background:#000;
+color:#ff4fa3;
+border:2px solid #ff4fa3;
+border-radius:12px;
+padding:15px 30px;
+font-size:18px;
+box-shadow:
+0 0 10px #ff4fa3,
+0 0 25px #8a00ff;
+cursor:pointer;
+transition:0.2s;
+}
+
+.musicButton:hover{
+transform:scale(1.05);
+box-shadow:
+0 0 20px #ff4fa3,
+0 0 40px #8a00ff;
+}
+
+.musicGrid{
+display:grid;
+grid-template-columns:repeat(2, 200px);
+gap:25px;
+justify-content:center;
+margin-top:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- COUNTDOWN PANEL -->
+
+<div id="countdownPanel">
+
+<div class="panel">
+
+<div class="glitch" data-text="???">???</div>
+
+<div class="timer">
+
+<div class="box">
+<div id="days" class="number">000</div>
+<div class="label">DAYS</div>
+</div>
+
+<div class="box">
+<div id="hours" class="number">00</div>
+<div class="label">HOURS</div>
+</div>
+
+<div class="box">
+<div id="mins" class="number">00</div>
+<div class="label">MINS</div>
+</div>
+
+<div class="box">
+<div id="secs" class="number">00</div>
+<div class="label">SECS</div>
+</div>
+
+<button class="musicButton" onclick="toggleMusic()" id="musicBtn">
+Enable Music
+</button>
+
+</div>
+
+<audio id="music" loop></audio>
+
+<div class="musicGrid">
+
+<button class="musicButton" onclick="playSong('03. Intertile.mp3')">INTERTILE</button>
+<button class="musicButton" onclick="playSong('1-13. Wet Hands.mp3')">WET HANDS</button>
+<button class="musicButton" onclick="playSong('Moog City 2.mp3')">MOOG CITY 2</button>
+<button class="musicButton" onclick="playSong('Aria Math.mp3')">ARIA MATH</button>
+<button class="musicButton" onclick="playSong('24. Broken Heart of Ender.mp3')">BROKEN HEART ENDER</button>
+<button class="musicButton" onclick="playSong('04. Halland.mp3')">HALLAND</button>
+
+</div>
+
+<button class="musicButton" onclick="showMusicMenu()">ALL MUSIC</button>
+
+</div>
+
+</div>
+
+
+<!-- MUSIC PANEL -->
+
+<div id="musicPanel" style="display:none">
+
+<div class="panel">
+
+<button class="musicButton" onclick="playSong('14. What You Came For.mp3')">Mission Reward</button>
+<button class="musicButton" onclick="playSong('10. WanderLust.mp3')">WanderLust</button>
+<button class="musicButton" onclick="playSong('38. Redstone Monstrosity.mp3')">Firey Forge Boss</button>
+<button class="musicButton" onclick="playSong('freakyMenu.ogg')">Plants Night Funkin' menu</button>
+<button class="musicButton" onclick="playSong('ChooseYourSeeds2.ogg')">Choose your Seeds</button>
+<button class="musicButton" onclick="playSong('Inst.ogg')">Within our Deep Roots</button>
+<button class="musicButton" onclick="playSong('blastroof.ogg')">Blast the Roof</button>
+<button class="musicButton" onclick="playSong('lunargains.ogg')">Lunar Grains</button>
+<button class="musicButton" onclick="playSong('light.ogg')">Lights out</button>
+<button class="musicButton" onclick="playSong('zombielawn.ogg')">Zombies on Your Lawn</button>
+<button class="musicButton" onclick="playSong('witheredpetals.ogg')">Withered Petals</button>
+<button class="musicButton" onclick="playSong('grass.ogg')">GrassWalk</button>
+<button class="musicButton" onclick="playSong('jackblackni.mp3')">Jack Black</button>
+<button class="musicButton" onclick="playSong('DOORS SONG - _The Backdoor_ (Roblox Horror).mp3')">The Backdoor</button>
+
+<br><br>
+
+<button class="musicButton" onclick="showCountdown()">BACK</button>
+
+
+<iframe width="110" height="200" src="https://www.myinstants.com/instant/fahhh-42300/embed/" frameborder="0" scrolling="no"></iframe>
+<iframe width="110" height="200" src="https://www.myinstants.com/instant/rip-my-granny-she-got-hit-by-a-bazooka-58568/embed/" frameborder="0" scrolling="no"></iframe>
+
+</div>
+
+</div>
+
+
+<script>
+
+let musicPlaying = false;
+const music = document.getElementById("music");
+const btn = document.getElementById("musicBtn");
+
+function playSong(song){
+music.src = song;
+music.play();
+musicPlaying = true;
+btn.textContent = "Disable Music";
+}
+
+function toggleMusic(){
+if(!musicPlaying){
+music.play();
+btn.textContent="Disable Music";
+musicPlaying=true;
+}else{
+music.pause();
+btn.textContent="Enable Music";
+musicPlaying=false;
+}
+}
+
+function showMusicMenu(){
+document.getElementById("countdownPanel").style.display="none";
+document.getElementById("musicPanel").style.display="block";
+}
+
+function showCountdown(){
+document.getElementById("musicPanel").style.display="none";
+document.getElementById("countdownPanel").style.display="block";
+}
+
+</script>
+
+
+<script>
+
+const target = new Date("July 1, 2026 14:30:00").getTime();
+
+function updateTimer(){
+
+const now = new Date().getTime();
+const distance = target - now;
+
+if(distance <= 0){
+document.querySelector(".glitch").innerText="THE VOID HAS ARRIVED";
+return;
+}
+
+const days=Math.floor(distance/(1000*60*60*24));
+const hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+const mins=Math.floor((distance%(1000*60*60))/(1000*60));
+const secs=Math.floor((distance%(1000*60))/1000);
+
+document.getElementById("days").innerText=String(days).padStart(3,"0");
+document.getElementById("hours").innerText=String(hours).padStart(2,"0");
+document.getElementById("mins").innerText=String(mins).padStart(2,"0");
+document.getElementById("secs").innerText=String(secs).padStart(2,"0");
+
+}
+
+updateTimer();
+setInterval(updateTimer,1000);
+
+</script>
+
+</body>
+</html>
